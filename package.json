@@ -1,7 +1,7 @@
 {
-  "name": "estate-ease-auth-service",
+  "name": "up-tax-manager-core-service",
   "version": "1.0.0",
-  "description": "Error Ease Varsity Projact Auth Service",
+  "description": "Core service for Up Tax Manager",
   "main": "src/server.ts",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
