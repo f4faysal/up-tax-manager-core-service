@@ -143,4 +143,4 @@
 
 ### 10/02/2023
 
-### 001 - UP Tax Manager Documentation
+### 001 - UP Tax Manager Documentation `v1.0.0`
