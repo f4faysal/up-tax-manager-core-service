@@ -143,3 +143,58 @@
 
 ### 10/02/2023
 
+
+## ER Diagram 
+
+We seek to develop a user-friendly web application for structured data management, categorized by colonies. The application includes robust authentication, efficient home data registration via smartphone, real-time registration status tracking, and a comprehensive reporting system with data export capabilities.
+
+1. Authentication:
+
+The system features a designated super admin with authority to create user accounts for agents and manage resident data collection. The super admin ensures data accuracy and currency, accessing advanced features beyond regular user capabilities.
+
+#User Table:
+  
+  | UserID (Primary Key) | Username | Password | UserType  |
+  |----------------------|----------|----------|-----------|
+  | int                  | varchar  | varchar  | varchar   |
+
+2. Registration Home:
+
+Agents use smartphones for responsive and error-free home data registration, emphasizing accuracy and efficiency.
+
+#Colony Table:
+  
+  | ColonyID (Primary Key) | ColonyName   |
+  |------------------------|--------------|
+  | int                    | varchar      |
+
+#Home Table:
+  
+  | HomeID (Primary Key) | ColonyID (Foreign Key) | HomeNumber | OwnerName | NIDNumber | PhoneNumber |
+  |----------------------|------------------------|------------|-----------|-----------|--------------|
+  | int                  | int                    | varchar    | varchar   | varchar   | varchar      |
+
+4. Registration Status:
+
+The system includes a status feature displaying payment statuses (Paid, Due, Pending).
+
+#FinancialYear Table:
+  
+  | YearID (Primary Key) | StartYear | EndYear   |
+  |----------------------|-----------|-----------|
+  | int                  | date      | date      |
+
+#TaxPayment Table: 
+  
+  | PaymentID (Primary Key) | HomeID (Foreign Key) | YearID (Foreign Key) | Amount (decimal) | Status   |
+  |-------------------------|----------------------|----------------------|------------------|----------|
+  | int                     | int                  | int                  | decimal          | varchar  |
+
+#Additional Details:
+
+- Users input data based on criteria such as colonies, home numbers, names, NID numbers, and phone numbers, facilitating efficient data organization.
+
+- Taxes are collected based on financial years (e.g., 2022-2023, 2024-2025) for accurate and efficient tax collection.
+
+This ER diagram provides the foundation for a robust database schema, aligning with the specified requirements for the local area tax management system.
+
