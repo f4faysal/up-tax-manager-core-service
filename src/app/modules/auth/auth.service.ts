@@ -4,8 +4,8 @@ import { JwtPayload, Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
-import { User } from '../user/user.model';
-import bcrypt from 'bcrypt'
+import { User } from '../home/home.model';
+import bcrypt from 'bcrypt';
 import {
   IChangePassword,
   ILoginUser,
@@ -67,7 +67,7 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
 
   const { userId } = verifiedToken;
 
-  const isUserExist = await Admin.findOne({_id: userId});
+  const isUserExist = await Admin.findOne({ _id: userId });
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   }
@@ -109,7 +109,7 @@ const changePassword = async (
   ) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Old Password is incorrect');
   }
-  
+
   isUserExist.password = newPassword;
   isUserExist.needsPasswordChange = false;
 
