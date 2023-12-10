@@ -6,8 +6,7 @@ import { FinancialYearService } from './financialYear.service';
 import { IFinancialYear } from './financialYear.interface';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
-  const data = req.body;
-  const result = await FinancialYearService.insertIntoDB(data);
+  const result = await FinancialYearService.insertIntoDB();
   sendResponse<IFinancialYear>(res, {
     statusCode: httpStatus.OK,
     success: true,
