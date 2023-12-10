@@ -5,7 +5,6 @@ import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
-import { User } from '../user/user.model';
 import { adminSearchableFields } from './admin.constant';
 import { IAdmin, IAdminFilters } from './admin.interface';
 import { Admin } from './admin.model';
@@ -29,7 +28,7 @@ const insertIntoDB = async (data: IAdmin): Promise<IAdmin> => {
 };
 
 const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
-  const result = await Admin.findOne({ id });
+  const result = await Admin.findOne({ _id: id });
   return result;
 };
 
@@ -76,7 +75,6 @@ const getAllAdmins = async (
     andConditions.length > 0 ? { $and: andConditions } : {};
 
   const result = await Admin.find(whereConditions)
-    // .populate('managementDepartment')
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
@@ -97,10 +95,10 @@ const updateAdmin = async (
   id: string,
   payload: Partial<IAdmin>
 ): Promise<IAdmin | null> => {
-  const isExist = await Admin.findOne({ id });
+  const isExist = await Admin.findOne({ _id: id });
 
   if (!isExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found !');
+    throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found!');
   }
 
   const {...adminData } = payload;
@@ -119,20 +117,17 @@ const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
 
   try {
     // check if the Admin exists
-    const isExist = await Admin.findOne({ id });
+    const isExist = await Admin.findOne({ _id: id });
 
     if (!isExist) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found!');
     }
 
     // delete Admin first
-    const admin = await Admin.findOneAndDelete({ id }, { session });
+    const admin = await Admin.findOneAndDelete({ _id: id }, { session });
     if (!admin) {
       throw new ApiError(404, 'Failed to delete Admin');
     }
-
-    // delete user
-    await User.deleteOne({ id }, { session });
 
     // Commit the transaction after all operations are successful
     await session.commitTransaction();
