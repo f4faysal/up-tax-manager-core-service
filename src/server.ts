@@ -9,6 +9,7 @@ process.on('uncaughtException', error => {
   process.exit(1);
 });
 let server: Server;
+// Connect to database
 async function bootstap() {
   try {
     await mongoose.connect(config.database__url as string);
@@ -32,7 +33,7 @@ async function bootstap() {
   });
 }
 bootstap();
-
+// Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('SIGTERM is Recived');
   if (server) {
