@@ -15,7 +15,6 @@ router.get(
 router.get('/', AdminController.getAllAdmins);
 router.patch(
   '/:id',
-  validateRequest(AdminValidation.updateAdmin),
   auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
   AdminController.updateAdmin
 );
@@ -23,6 +22,12 @@ router.delete(
   '/:id',
   auth(ENUM_USER_ROLE.SUPER_ADMIN),
   AdminController.deleteAdmin
+);
+
+router.post(
+  '/create-admin',
+  validateRequest(AdminValidation.createAdmin),
+  AdminController.insertIntoDB
 );
 
 export const AdminRoutes = router;

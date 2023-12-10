@@ -8,6 +8,16 @@ import { adminFilterableFields } from './admin.constant';
 import { IAdmin } from './admin.interface';
 import { AdminService } from './admin.service';
 
+const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  const result = await AdminService.insertIntoDB(data);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Admin Create is Successfully!',
+    data: result,
+  });
+});
 const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, adminFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
@@ -53,6 +63,7 @@ const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const AdminController = {
+  insertIntoDB,
   getAllAdmins,
   getSingleAdmin,
   updateAdmin,

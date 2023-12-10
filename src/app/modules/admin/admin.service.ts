@@ -9,6 +9,24 @@ import { User } from '../user/user.model';
 import { adminSearchableFields } from './admin.constant';
 import { IAdmin, IAdminFilters } from './admin.interface';
 import { Admin } from './admin.model';
+import bcrypt from 'bcrypt';
+import config from '../../../config';
+
+const insertIntoDB = async (data: IAdmin): Promise<IAdmin> => {
+  const { password } = data;
+  // password hash here
+  const hashPassword = await bcrypt.hash(
+    password,
+    Number(config.bycrypt_salt_rounds)
+  );
+  data['password'] = hashPassword;
+  data['role'] = 'admin';
+  data['change_password'] = true;
+  data['status'] = 'active';
+
+  const result = await Admin.create(data);
+  return result;
+};
 
 const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
   const result = await Admin.findOne({ id });
@@ -85,16 +103,9 @@ const updateAdmin = async (
     throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found !');
   }
 
-  const { name, ...adminData } = payload;
+  const {...adminData } = payload;
 
   const updatedStudentData: Partial<IAdmin> = { ...adminData };
-
-  if (name && Object.keys(name).length > 0) {
-    Object.keys(name).forEach(key => {
-      const nameKey = `name.${key}` as keyof Partial<IAdmin>;
-      (updatedStudentData as any)[nameKey] = name[key as keyof typeof name];
-    });
-  }
 
   const result = await Admin.findOneAndUpdate({ id }, updatedStudentData, {
     new: true,
@@ -137,6 +148,7 @@ const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
 };
 
 export const AdminService = {
+  insertIntoDB,
   getSingleAdmin,
   getAllAdmins,
   updateAdmin,

@@ -3,26 +3,38 @@ import { AdminModel, IAdmin } from './admin.interface';
 
 const AdminSchema = new Schema<IAdmin, AdminModel>(
   {
-    id: {
+    first_name: {
       type: String,
       required: true,
-      unique: true,
     },
-    name: {
-      firstName: {
-        type: String,
-        require: true,
-      },
-      middleName: {
-        type: String,
-      },
-      lastName: {
-        type: String,
-        require: true,
-      },
-    },
-    dateOfBirth: {
+    middle_name: {
       type: String,
+    },
+    last_name: {
+      type: String,
+      required: true,
+    },
+    date_of_birth: {
+      type: String,
+    },
+    role: {
+      type: String,
+      enum: ['admin', 'super_admin'],
+      required: true,
+    },
+    blood_group: {
+      type: String,
+      enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+    },
+    nid_no: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ['active', 'inactive'],
+      default: 'active',
     },
     gender: {
       type: String,
@@ -33,21 +45,26 @@ const AdminSchema = new Schema<IAdmin, AdminModel>(
       unique: true,
       required: true,
     },
-    contactNo: {
+    contact_no: {
       type: String,
       unique: true,
       required: true,
     },
-    emergencyContactNo: {
+    profile_img: {
+      type: String,
+    },
+    password: {
       type: String,
       required: true,
     },
-    designation: {
-      type: String,
-      required: true,
+    change_password: {
+      type: Boolean,
+      default: false,
     },
-    profileImage: {
-      type: String,
+    colony: {
+      type: Schema.Types.ObjectId,
+      ref: 'Colony',
+      required: true,
     },
   },
   {

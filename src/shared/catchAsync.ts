@@ -1,4 +1,3 @@
-/* eslint-disable  @typescript-eslint/explicit-module-boundary-types  */
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 
 const catchAsync = (fn: RequestHandler) => {
@@ -7,7 +6,6 @@ const catchAsync = (fn: RequestHandler) => {
       await fn(req, res, next);
     } catch (error) {
       next(error);
-      // throw new ApiError(1000, "ore baba")
     }
   };
 };
