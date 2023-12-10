@@ -7,7 +7,7 @@ const createAdmin = z.object({
     last_name: z.string({ required_error: 'Last Name is Required!' }),
     role: z.enum(['admin', 'super_admin'] as [string, ...string[]], {
       required_error: 'Role is Required!',
-    }),
+    }).optional(),
     blood_group: z
       .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] as [
         string,
@@ -18,17 +18,17 @@ const createAdmin = z.object({
     nid_no: z.string({ required_error: 'Nid Number is Required!' }),
     status: z.enum(['active', 'inactive'] as [string, ...string[]], {
       required_error: 'Status is Required!',
-    }),
+    }).optional(),
     gender: z
       .enum(['male', 'female', 'others'] as [string, ...string[]])
       .optional(),
     email: z.string().email().optional(),
     contact_no: z.string({ required_error: 'Contact number is Required!' }),
     profile_img: z.string().optional(),
-    password: z.string({ required_error: 'Password is Required!' }),
+    password: z.string({ required_error: 'Password is Required!' }).optional(),
     change_password: z.boolean({
       required_error: 'Change Password is Required!',
-    }),
+    }).optional(),
     colony: z.string({ required_error: 'Colony is Required!' }),
   }),
 });

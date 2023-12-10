@@ -13,9 +13,13 @@ import config from '../../../config';
 
 const insertIntoDB = async (data: IAdmin): Promise<IAdmin> => {
   const { password } = data;
+  let default_pass;
+  if (!password) {
+    default_pass = config.default_admin_pass as string;
+  }
   // password hash here
   const hashPassword = await bcrypt.hash(
-    password,
+    password ? password : (default_pass as string),
     Number(config.bycrypt_salt_rounds)
   );
   data['password'] = hashPassword;
@@ -23,12 +27,12 @@ const insertIntoDB = async (data: IAdmin): Promise<IAdmin> => {
   data['change_password'] = true;
   data['status'] = 'active';
 
-  const result = await Admin.create(data);
+  const result = (await Admin.create(data)).populate('colony');
   return result;
 };
 
 const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
-  const result = await Admin.findOne({ _id: id });
+  const result = await Admin.findOne({ _id: id }).populate('colony');
   return result;
 };
 
@@ -77,7 +81,8 @@ const getAllAdmins = async (
   const result = await Admin.find(whereConditions)
     .sort(sortConditions)
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .populate('colony');
 
   const total = await Admin.countDocuments(whereConditions);
 
@@ -101,13 +106,17 @@ const updateAdmin = async (
     throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found!');
   }
 
-  const {...adminData } = payload;
+  const { ...adminData } = payload;
 
+  const filters = { _id: id };
   const updatedStudentData: Partial<IAdmin> = { ...adminData };
+  const options = { new: true };
 
-  const result = await Admin.findOneAndUpdate({ id }, updatedStudentData, {
-    new: true,
-  });
+  const result = await Admin.findOneAndUpdate(
+    filters,
+    updatedStudentData,
+    options
+  ).populate('colony');
   return result;
 };
 
@@ -124,7 +133,11 @@ const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
     }
 
     // delete Admin first
-    const admin = await Admin.findOneAndDelete({ _id: id }, { session });
+    const admin = await Admin.findOneAndDelete(
+      { _id: id },
+      { session }
+    ).populate('colony');
+
     if (!admin) {
       throw new ApiError(404, 'Failed to delete Admin');
     }

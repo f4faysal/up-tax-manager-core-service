@@ -25,6 +25,16 @@ const getAllData = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const dueYearData = catchAsync(async (req: Request, res: Response) => {
+  const {homeId} = req.params;
+  const result = await FinancialYearService.dueYearData(homeId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All Due Years Retrived Succssfully!',
+    data: result,
+  });
+});
 
 const getSingleData = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -63,6 +73,7 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
 export const FinancialYearController = {
   insertIntoDB,
   getAllData,
+  dueYearData,
   getSingleData,
   updateData,
   deleteData,

@@ -1,8 +1,39 @@
-import { ITaxPayment } from "./taxPayment.interface";
-import { TaxPayment } from "./taxPayment.model";
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
+import { Home } from '../home/home.model';
+import { ITaxPayment } from './taxPayment.interface';
+import { TaxPayment } from './taxPayment.model';
+import { FinancialYear } from '../financialYear/financialYear.model';
 
 const insertIntoDB = async (data: ITaxPayment): Promise<ITaxPayment> => {
-  const result = await TaxPayment.create(data);
+  const { home, financial_year } = data;
+  const isExistHouse = await Home.findOne({ _id: home });
+  const isExistFinancialYear = await FinancialYear.findOne({
+    _id: financial_year,
+  });
+
+  if (!isExistHouse) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'This house is not register!');
+  }
+
+  if (!isExistFinancialYear) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'This is not a right financial year'
+    );
+  }
+
+  const { house_price } = isExistHouse;
+
+  if (house_price) {
+    data['amount'] = house_price;
+  }
+
+  data['status'] = 'paid';
+
+  const result = (
+    await (await TaxPayment.create(data)).populate('home')
+  ).populate('financial_year');
   return result;
 };
 

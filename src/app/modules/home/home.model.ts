@@ -8,6 +8,7 @@ const homeSchema = new Schema<IHome, HomeModel>(
     home_id: {
       type: String,
       required: true,
+      unique: true,
     },
     owner_name: {
       type: String,
@@ -33,6 +34,7 @@ const homeSchema = new Schema<IHome, HomeModel>(
     nid_no: {
       type: String,
       required: true,
+      unique: true,
     },
     phone_no: {
       type: String,

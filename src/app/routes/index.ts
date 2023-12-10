@@ -1,15 +1,15 @@
 import express from 'express';
 import { AdminRoutes } from '../modules/admin/admin.route';
 import { AuthRoutes } from '../modules/auth/auth.route';
-import { HomeRoutes } from '../modules/home/home.route';
 import { ColonyRoutes } from '../modules/colony/colony.routes';
 import { FinancialYearRoutes } from '../modules/financialYear/financialYear.routes';
 import { TaxPaymentRoutes } from '../modules/taxPayment/taxPayment.routes';
+import { HomeRoutes } from '../modules/home/home.route';
 
 const router = express.Router();
 const moduleRutes = [
   {
-    path: '/admin',
+    path: '/admins',
     route: AdminRoutes,
   },
   {

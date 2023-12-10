@@ -6,6 +6,7 @@ import { FinancialYearController } from './financialYear.controller';
 const router = express.Router();
 
 router.get('/', FinancialYearController.getAllData);
+router.get('/due-payment-year/:homeId', FinancialYearController.dueYearData);
 router.get('/:id', FinancialYearController.getSingleData);
 router.patch(
   '/:id',
@@ -14,7 +15,7 @@ router.patch(
 );
 router.delete('/:id', FinancialYearController.deleteData);
 router.post(
-  '/create-colony',
+  '/create-financial-year',
   validateRequest(FinancialYearValidation.create),
   FinancialYearController.insertIntoDB
 );
