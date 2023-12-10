@@ -4,6 +4,7 @@ import { AuthRoutes } from '../modules/auth/auth.route';
 import { HomeRoutes } from '../modules/home/home.route';
 import { ColonyRoutes } from '../modules/colony/colony.routes';
 import { FinancialYearRoutes } from '../modules/financialYear/financialYear.routes';
+import { TaxPaymentRoutes } from '../modules/taxPayment/taxPayment.routes';
 
 const router = express.Router();
 const moduleRutes = [
@@ -26,6 +27,10 @@ const moduleRutes = [
   {
     path: '/financial-years',
     route: FinancialYearRoutes,
+  },
+  {
+    path: '/tax-payments',
+    route: TaxPaymentRoutes,
   },
 ];
 

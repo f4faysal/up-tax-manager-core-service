@@ -10,6 +10,12 @@ const colonySchema = new Schema<IColony, ColonyModel>({
     type: String,
     required: true,
   },
+},
+{
+  timestamps: true,
+  toJSON: {
+    virtuals: true,
+  },
 });
 
 export const Colony = model('Colony', colonySchema);
