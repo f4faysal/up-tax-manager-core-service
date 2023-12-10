@@ -2,22 +2,22 @@ import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
-import { FinancialYearService } from './financialYear.service';
-import { IFinancialYear } from './financialYear.interface';
+import { TaxPaymentService } from './taxPayment.service';
+import { ITaxPayment } from './taxPayment.interface';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
-  const result = await FinancialYearService.insertIntoDB(data);
-  sendResponse<IFinancialYear>(res, {
+  const result = await TaxPaymentService.insertIntoDB(data);
+  sendResponse<ITaxPayment>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Data Create Succssfully!',
+    message: 'Payment Succssfully!',
     data: result,
   });
 });
 
 const getAllData = catchAsync(async (req: Request, res: Response) => {
-  const result = await FinancialYearService.getAllData();
+  const result = await TaxPaymentService.getAllData();
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -28,7 +28,7 @@ const getAllData = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleData = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await FinancialYearService.getSingleData(id);
+  const result = await TaxPaymentService.getSingleData(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -40,7 +40,7 @@ const getSingleData = catchAsync(async (req: Request, res: Response) => {
 const updateData = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const data = req.body;
-  const result = await FinancialYearService.updateData(id, data);
+  const result = await TaxPaymentService.updateData(id, data);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -51,7 +51,7 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
 
 const deleteData = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await FinancialYearService.deleteData(id);
+  const result = await TaxPaymentService.deleteData(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -60,7 +60,7 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const FinancialYearController = {
+export const TaxPaymentController = {
   insertIntoDB,
   getAllData,
   getSingleData,

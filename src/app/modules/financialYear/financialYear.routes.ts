@@ -1,7 +1,7 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { FinancialYearController } from './financialYear.controller';
 import { FinancialYearValidation } from './financialYear.validation';
+import { FinancialYearController } from './financialYear.controller';
 
 const router = express.Router();
 
