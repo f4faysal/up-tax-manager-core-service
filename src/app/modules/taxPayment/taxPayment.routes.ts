@@ -14,7 +14,7 @@ router.patch(
 );
 router.delete('/:id', TaxPaymentController.deleteData);
 router.post(
-  '/create-colony',
+  '/pay',
   validateRequest(TaxPaymentValidation.create),
   TaxPaymentController.insertIntoDB
 );

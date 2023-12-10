@@ -38,7 +38,7 @@ const AdminSchema = new Schema<IAdmin, AdminModel>(
     },
     gender: {
       type: String,
-      enum: ['male', 'female'],
+      enum: ['male', 'female', 'others'],
     },
     email: {
       type: String,

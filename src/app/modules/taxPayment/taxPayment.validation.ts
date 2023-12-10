@@ -6,10 +6,10 @@ const create = z.object({
     financial_year: z.string({
       required_error: 'Financial Year Id is Required!',
     }),
-    amount: z.string({ required_error: 'Amount is Required!' }),
+    amount: z.string({ required_error: 'Amount is Required!' }).optional(),
     status: z.enum(['paid', 'unpaid'], {
       required_error: 'Status is Required!',
-    }),
+    }).optional(),
   }),
 });
 
