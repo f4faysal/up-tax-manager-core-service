@@ -7,7 +7,11 @@ const router = express.Router();
 
 router.get('/', ColonyController.getAllData);
 router.get('/:id', ColonyController.getSingleData);
-router.patch('/:id', ColonyController.updateData);
+router.patch(
+  '/:id',
+  validateRequest(ColonyValidation.update),
+  ColonyController.updateData
+);
 router.delete('/:id', ColonyController.deleteData);
 router.post(
   '/create-colony',
