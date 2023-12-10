@@ -1,0 +1,19 @@
+NODE_ENV= development
+# NODE_ENV= production
+PORT = 5000
+
+DATABASE_URL =mongodb+srv://f4faysals:TAUMRR1rJHFAhfxn@cluster0.jkd2ky5.mongodb.net/up-tax-manager
+
+# DATABASE_URL =mongodb://localhost:27017/EstateEaseDB
+
+
+DEFAULT_PASSWORD = 123456 
+ADMIN_PASS = 123456 
+
+BCRYPT_SALT_ROUNDS=12
+JWT_SECRET= 'very-secret'
+JWT_EXPIRES_IN=1d
+JWT_REFRESH_SECRET='very-refresh-secret'
+JWT_REFRESH_EXPIRES_IN=365d
+
+
