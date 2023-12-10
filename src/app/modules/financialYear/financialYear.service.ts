@@ -1,9 +1,25 @@
+import httpStatus from "http-status";
+import ApiError from "../../../errors/ApiError";
 import { TaxPayment } from "../taxPayment/taxPayment.model";
 import { IFinancialYear } from "./financialYear.interface";
 import { FinancialYear } from "./financialYear.model";
 
 
-const insertIntoDB = async (data: IFinancialYear): Promise<IFinancialYear> => {
+const insertIntoDB = async (): Promise<IFinancialYear> => {
+  const toYear = new Date().getFullYear();
+  const nextYear = toYear + 1;
+
+  const isExistYear = await FinancialYear.findOne({end_year: nextYear});
+
+  if(isExistYear){
+    throw new ApiError(httpStatus.OK, "Already This Financial Year Has");
+  }
+
+  const data = {
+    start_year: toYear,
+    end_year: nextYear,
+  }
+  
   const result = await FinancialYear.create(data);
   return result;
 };

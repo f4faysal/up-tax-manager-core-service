@@ -16,7 +16,6 @@ router.patch(
 router.delete('/:id', FinancialYearController.deleteData);
 router.post(
   '/create-financial-year',
-  validateRequest(FinancialYearValidation.create),
   FinancialYearController.insertIntoDB
 );
 
