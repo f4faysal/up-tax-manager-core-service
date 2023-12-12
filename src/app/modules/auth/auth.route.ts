@@ -13,12 +13,7 @@ router.post(
 );
 router.get(
   '/my-profile',
-  auth(
-    ENUM_USER_ROLE.ADMIN,
-    ENUM_USER_ROLE.HOMEOWNER,
-    ENUM_USER_ROLE.RENTUSER,
-    ENUM_USER_ROLE.SUPER_ADMIN
-  ),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   AuthController.myProfile
 );
 
@@ -28,16 +23,11 @@ router.post(
   AuthController.refreshToken
 );
 
-router.post(
-  '/change-password',
-  validateRequest(AuthValidation.changePasswordZodSchema),
-  auth(
-    ENUM_USER_ROLE.SUPER_ADMIN,
-    ENUM_USER_ROLE.ADMIN,
-    ENUM_USER_ROLE.HOMEOWNER,
-    ENUM_USER_ROLE.RENTUSER
-  ),
-  AuthController.changePassword
-);
+// router.post(
+//   '/change-password',
+//   validateRequest(AuthValidation.changePasswordZodSchema),
+//   auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+//   AuthController.changePassword
+// );
 
 export const AuthRoutes = router;

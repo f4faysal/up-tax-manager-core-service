@@ -4,15 +4,14 @@ import { JwtPayload, Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
-import { User } from '../home/home.model';
+
 import bcrypt from 'bcrypt';
+import { Admin } from '../admin/admin.model';
 import {
-  IChangePassword,
   ILoginUser,
   ILoginUserResponse,
   IRefreshTokenResponse,
 } from './auth.interface';
-import { Admin } from '../admin/admin.model';
 
 const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { contact_no, password } = payload;
@@ -87,43 +86,39 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   };
 };
 
-const changePassword = async (
-  user: JwtPayload | null,
-  payload: IChangePassword
-): Promise<void> => {
-  const { oldPassword, newPassword } = payload;
+// const changePassword = async (
+//   user: JwtPayload | null,
+//   payload: IChangePassword
+// ): Promise<void> => {
+//   const { oldPassword, newPassword } = payload;
 
-  //alternative way
-  const isUserExist = await User.findOne({ id: user?.userId }).select(
-    '+password'
-  );
+//   //alternative way
+//   const isUserExist = await Admin.findOne({ id: user?.userId }).select(
+//     '+password'
+//   );
 
-  if (!isUserExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
-  }
+//   if (!isUserExist) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
+//   }
 
-  // checking old password
-  if (
-    isUserExist.password &&
-    !(await User.isPasswordMatched(oldPassword, isUserExist.password))
-  ) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Old Password is incorrect');
-  }
+//   // checking old password
+//   // if (
+//   //   isUserExist.password &&
+//   //   !(await Admin.isPasswordMatched(oldPassword, isUserExist.password))
+//   // ) {
+//   //   throw new ApiError(httpStatus.UNAUTHORIZED, 'Old Password is incorrect');
+//   // }
 
-  isUserExist.password = newPassword;
-  isUserExist.needsPasswordChange = false;
+//   isUserExist.password = newPassword;
+//   // isUserExist.needsPasswordChange = false;
 
-  // updating using save()
-  isUserExist.save();
-};
+//   // updating using save()
+//   isUserExist.save();
+// };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const myProfile = async (user: JwtPayload | null): Promise<any> => {
-  const result = await User.find({ _id: user?.userId }).populate([
-    'homeOwner',
-    'admin',
-    'rentUser',
-  ]);
+  const result = await Admin.find({ _id: user?.userId }).populate(['admin']);
 
   return result;
 };
@@ -131,6 +126,6 @@ const myProfile = async (user: JwtPayload | null): Promise<any> => {
 export const AuthService = {
   loginUser,
   refreshToken,
-  changePassword,
+
   myProfile,
 };
