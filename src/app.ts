@@ -9,7 +9,7 @@ const app: Application = express();
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://localhost:5000'], // allow to server to accept request from different origin
+    origin: ['http://localhost:3000', 'https://locat-tax.vercel.app'], // allow to server to accept request from different origin
     credentials: true,
   })
 );
